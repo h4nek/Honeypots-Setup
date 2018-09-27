@@ -1,0 +1,22 @@
+# Nmap 7.60 scan initiated Thu Sep 27 14:21:27 2018 as: nmap -oG ./testfiles/hosts-ports.out 192.168.1.0/24
+Host: 192.168.1.1 (_gateway)	Status: Up
+Host: 192.168.1.1 (_gateway)	Ports: 22/open/tcp//ssh///, 53/open/tcp//domain///, 80/open/tcp//http///, 443/open/tcp//https///, 2525/open/tcp//ms-v-worlds///	Ignored State: closed (995)
+Host: 192.168.1.123 ()	Status: Up
+Host: 192.168.1.123 ()	Ports: 22/open/tcp//ssh///, 3389/open/tcp//ms-wbt-server///	Ignored State: closed (998)
+Host: 192.168.1.219 ()	Status: Up
+Host: 192.168.1.219 ()	Status: Up
+Host: 192.168.1.100 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.100 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.101 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.101 (hynek-MS-7817)	Ports: 80/open/tcp//http///	Ignored State: closed (999)
+Host: 192.168.1.102 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.102 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.103 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.103 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.104 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.104 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.105 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.105 (hynek-MS-7817)	Ports: 80/open/tcp//http///	Ignored State: closed (999)
+Host: 192.168.1.110 (hynek-MS-7817)	Status: Up
+Host: 192.168.1.110 (hynek-MS-7817)	Status: Up
+# Nmap done at Thu Sep 27 14:26:37 2018 -- 256 IP addresses (10 hosts up) scanned in 310.09 seconds

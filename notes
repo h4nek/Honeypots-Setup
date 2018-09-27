@@ -1,0 +1,38 @@
+Honeypot PC IP: 147.32.83.197
+ftp login: admin
+ftp password: Password1!
+
+Turris (local) IP: 192.168.1.1
+
+HaaS Constants: https://gitlab.labs.nic.cz/haas/proxy/blob/master/haas_proxy/constants.py
+
+iptables Commands:
+    sudo iptables -t nat -A PREROUTING -p tcp -d 192.168.1.100 --dport 22 -j DNAT --to-destination 192.168.1.157:10022
+    sudo iptables -t nat -A POSTROUTING -p tcp -d 192.168.1.157 --dport 10022 -m conntrack --ctstate DNAT -j SNAT --to-source 192.168.1.100
+
+TODO: - create and use dummy interface on Turris?
+- run Cowrie
+- check Cowrie compatibility with HC (try to implement it in)
+
+Fake devices: - creating VMs directly on router (LXC) -> need external storage?
+	- Fake Internet = virtual network instead?
+	-is port forwarding to ...200 enabled for local ssh? -> maybe try forwarding to the local Test PC (open with netcat)
+	-write iptables rules into a specific file that gets executed after each firewall restart on Turis!!!
+	-do we even need redirecting??? - just run the honeypots on virtual interfaces in VMs
+									- might be needed for proper logging
+
+HC Framework: - Compatible with existing honeypot configurations?
+
+Docker: - We probably want VM (docker machine) with containters inside for each specific (honeypot) service.
+		- iptables should be useful to redirect traffic coming to host's IPs into VM IPs
+		
+
+The route:
+	LAN request -> local interface:port - logging?, redirect to VM internal interface:port (1:1 mapping) -> VM interface:port - a honeypot service running there?, processes the request, sends a reply (probably) -> reply goes back to local interface:port - log it there? -> continues back to source address on LAN...
+	
+The script:
+	Scan only first 1000 ports? Shell script or Python?
+	Run honeycomb services from script. Specify the exact input configuration format.
+	
+Honeypots:
+	Tarpit just an nc command?

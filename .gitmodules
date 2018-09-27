@@ -1,0 +1,6 @@
+[submodule "honeycomb"]
+	path = honeycomb
+	url = https://github.com/h4nek/honeycomb.git
+[submodule "honeycomb_plugins"]
+	path = honeycomb_plugins
+	url = https://github.com/h4nek/honeycomb_plugins.git

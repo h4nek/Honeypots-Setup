@@ -1,0 +1,15 @@
+#Here is a list of important commands and actions executed on the Turris router:
+
+opkg update
+opkg list | lists all installed packages
+opkg install python-pip
+Added new user hynek and set his home directory to /home/hynek (useradd and passwd commands; chown -R hynek:hynek /home/hynek)
+pip install honeycomb-framework
+pip install --upgrade pip
+honeycomb service install ftp (as hynek)
+honeycomb --iamroot service install ftp (as root)
+honeycomb --iamroot service run ftp
+opkg install nmap
+nmap -v -sP 192.168.1.0/24
+ifconfig eth0:0 192.168.1.111
+honeycomb --iamroot integration install json_file

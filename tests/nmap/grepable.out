@@ -1,0 +1,12 @@
+# Nmap 7.60 scan initiated Tue Sep 18 12:12:35 2018 as: nmap -oG grepable.out 192.168.1.0/24
+Host: 192.168.1.1 (_gateway)	Status: Up
+Host: 192.168.1.1 (_gateway)	Ports: 22/open/tcp//ssh///, 53/open/tcp//domain///, 80/open/tcp//http///, 443/open/tcp//https///, 2525/open/tcp//ms-v-worlds///	Ignored State: closed (995)
+Host: 192.168.1.100 ()	Status: Up
+Host: 192.168.1.100 ()	Status: Up
+Host: 192.168.1.123 ()	Status: Up
+Host: 192.168.1.123 ()	Ports: 22/open/tcp//ssh///, 3389/open/tcp//ms-wbt-server///	Ignored State: closed (998)
+Host: 192.168.1.157 ()	Status: Up
+Host: 192.168.1.157 ()	Status: Up
+Host: 192.168.1.219 (h4nek-Lenovo-V110-15IAP)	Status: Up
+Host: 192.168.1.219 (h4nek-Lenovo-V110-15IAP)	Status: Up
+# Nmap done at Tue Sep 18 12:13:15 2018 -- 256 IP addresses (5 hosts up) scanned in 40.66 seconds
