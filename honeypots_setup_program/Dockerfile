@@ -1,4 +1,4 @@
-# Use an official Python runtime as a parent image
+# Use an official Ubuntu distribution as a parent image
 FROM ubuntu:18.04
 
 # Copy the current directory contents into the container at /app

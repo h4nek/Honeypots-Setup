@@ -7,7 +7,6 @@ import json
 from pprint import pprint #for debugging
 import subprocess
 from subprocess import call, Popen, run, DEVNULL, STDOUT, PIPE
-import re
 from time import sleep
 import copy
 import random
@@ -29,6 +28,7 @@ class Tarpit:
                 proc.communicate() #killing the whole shell and finishing communication
 """
 
+"""
 '''Compare two lists of atomic elements.'''
 def cmp_lists(l1, l2):
     return sorted(l1) == sorted(l2)
@@ -46,6 +46,48 @@ def cmp_states(state1, state2):
         if not ifaces_equal:
             return False
     return True
+"""
+    
+'''Count the frequency (probability) of each port being open on the given LAN (represented as list of interfaces that contain the open ports).
+Returns a list of 1000 ports, each represented by a number telling what is the probability of that port being open on a random interface in the given LAN.'''
+def port_frequency(ifaces):
+    freq = [0] * 1000 # we scan only the first 1000 ports by default
+    if not ifaces:
+        return freq
+    n_ifaces = 0 # number of interfaces
+    for iface in ifaces:
+        n_ifaces += 1
+        for port in iface:
+            freq[port] += 1        
+    print(n_ifaces)
+    print("22 is there times " + str(freq[22]))
+    i = 0
+    for p in freq:
+        freq[i] = p/n_ifaces
+        i += 1
+    return freq
+
+'''Compute the difference (represented by a number) between two port frequency lists.'''
+def freq_difference(freq1, freq2):
+    return sum([abs(x-y) for (x, y) in zip(freq1,freq2)]) # first we put together the two frequency numbers for each port, then we compute their absolute difference and finally we add all the differences up
+    
+'''Choose the best honeypot configuration for our LAN.'''
+def get_best_config(my_state, configs):
+    distance_threshold = 1
+    my_freq = port_frequency(my_state)
+    distances = [] # a list of tuples where the first element is a configuration, second is a number representing the difference between our LAN state and the given configuration's state
+    for config in configs[:-1]: # last config is expected to be the DEFAULT
+        config_freq = port_frequency(config[0])
+        diff = freq_difference(my_freq, config_freq)
+        distances.append((config[1], diff))
+
+    closest_config = min(distances, key = lambda t: t[1])
+    print("min distance:", closest_config[1])
+    
+    if closest_config[1] <= distance_threshold:
+        return closest_config[0]
+    else:   # choose DEFAULT
+        return configs[-1][1]
 
 '''Get the current state of LAN. Returns it as list of interfaces, each interface being a list of ports.'''
 def get_my_state():
@@ -96,7 +138,15 @@ def create_ips(ips, iface):
             n += 1
 
 '''Start a concrete honeypot service on a given interface and port. Uses Honeycomb Framework. More parameters/options might be added in the future.'''
-def start_honeypot(name, ip, port):
+def start_honeypot(ip, port):
+    if port == 21:
+        name = "ftp"
+    elif port == 80:
+        name = "simple-http"
+    else:
+        name = "tarpit"
+    print("the hp name is: " + name)
+    exit() #test
     return Popen(["honeycomb", "--iamroot", "service", "run", name, "ip=" + ip, "port=" + str(port)], stdout=PIPE, stderr=PIPE)
 
 '''Start all honeypot services on given addresses and ports.'''
@@ -105,7 +155,7 @@ def start_services(config, ips):
     services = []
     for iface in config:
         for service in iface:
-            honeypot = start_honeypot(service[0], ips[i], service[1])
+            honeypot = start_honeypot(ips[i], service)
             print("hp pid: " + str(honeypot.pid))
             services.append(honeypot)
         i += 1
@@ -115,10 +165,10 @@ def start_services(config, ips):
 def apply_config(config):
     ips = ["192.168.1.105", "192.168.1.110"] #testing
     pprint(config) #testing
-    run(["modprobe", "dummy"], stdout=DEVNULL, stderr=STDOUT)# load dummy kernel module if it's not loaded
+    #run(["modprobe", "dummy"], stdout=DEVNULL, stderr=STDOUT)# load dummy kernel module if it's not loaded
     run(["ip", "li", "add", "eth10", "type", "dummy"], stdout=DEVNULL, stderr=STDOUT)#create sample interface
     print("created an interface?")
-    run(["ip", "addr", "show", "eth10"])
+    run(["ip", "addr", "show", "eth10"]) # test output
     create_ips(ips, "eth10")
     #return ("eth10", ips)
     return start_services(config, ips)
@@ -138,26 +188,32 @@ def delete_interface(iface):
 
 '''Run the whole honeypot setup.'''
 def setup():
-    with open("./testfiles/example.json") as f:
+    with open("./testfiles/example-2.json") as f:
         configs = json.load(f)
         print(configs[0][0][0]) # [22, 88]
         my_state = get_my_state()
-        print(my_state)
-        services = None
+        print("my state:", my_state)
+        config = get_best_config(my_state, configs)
+        print("probs and confs:", config)
+        concrete_config = throw_a_dice(config)
+        print("concrete config:", concrete_config)
+        services = apply_config(concrete_config)
+        """
         for config in configs[:-1]: # last config is expected to be the DEFAULT
             if cmp_states(my_state, config[0]):
-                print("config: " + config[0])
-                print("probs and confs: " + config[1])
+                print("config: ", config[0])
+                print("probs and confs: ", config[1])
                 concrete_config = throw_a_dice(config[1])
-                print("concrete config: " + concrete_config)
+                print("concrete config: ", concrete_config)
                 services = apply_config(concrete_config)
                 break
         else:
-            print("config: " + configs[-1][0])
+            print("config: ", configs[-1][0])
             print("probs and confs: ", configs[-1][1])
             concrete_config = throw_a_dice(configs[-1][1])
             print("concrete config: ", concrete_config)
             services = apply_config(concrete_config)
+        """
     
     print("going to sleep...")
     sleep(5)

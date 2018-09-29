@@ -25,6 +25,7 @@ HC Framework: - Compatible with existing honeypot configurations?
 
 Docker: - We probably want VM (docker machine) with containters inside for each specific (honeypot) service.
 		- iptables should be useful to redirect traffic coming to host's IPs into VM IPs
+		- create ip addresses for honeypots (and links to them from the Host OS's LAN IPs) before starting the Docker | how to get the number of required IPs?
 		
 
 The route:
