@@ -1,7 +1,7 @@
 #Here is a list of important commands and actions executed on the Turris router:
 
 opkg update
-opkg list | lists all installed packages
+opkg list | lists all available packages
 opkg install python-pip
 Added new user hynek and set his home directory to /home/hynek (useradd and passwd commands; chown -R hynek:hynek /home/hynek)
 pip install honeycomb-framework
@@ -13,3 +13,9 @@ opkg install nmap
 nmap -v -sP 192.168.1.0/24
 ifconfig eth0:0 192.168.1.111
 honeycomb --iamroot integration install json_file
+opkg install kmod-ipt-extra
+opkg install iptables-mod-extra
+copied file located here: https://mega.nz/#!tOJgGTTB!kUsQX7oC3DKDB6FWYd1nTts4ih-nEt8grv7XSzaonuw
+... to my user account (ref. thread: https://forum.turris.cz/t/docker-on-turris-omnia/242/37)
+opkg install make
+

@@ -15,6 +15,9 @@ EXPOSE 80
 
 # Define environment variable
 ENV NAME World
+# Set proxy server, replace host:port with values for your servers
+ENV http_proxy 192.168.1.219:80
+ENV https_proxy 192.168.1.219:88
 
 # Run app.py when the container launches
 CMD ["python", "app.py"]
