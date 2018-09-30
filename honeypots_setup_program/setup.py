@@ -11,5 +11,5 @@ if __name__ == "__main__":
     run(["modprobe", "dummy"], stdout=DEVNULL, stderr=STDOUT)# load dummy kernel module if it's not loaded
     
     run(["docker", "build", "-t", "honeypots_setup", "."])
-    run(["docker", "run", "-it", "honeypots_setup"])
-    
+    #run(["docker", "run", "-it", "honeypots_setup"])
+    run(["docker", "run", "-it", "--cap-add=NET_ADMIN", "--network", "host"]) # privilege to modify network and to be on the host network

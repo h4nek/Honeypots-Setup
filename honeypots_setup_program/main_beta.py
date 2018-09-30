@@ -153,15 +153,15 @@ def start_honeypot(ip, port):
     run(["ping"])
     run(["git"])
     run(["honeycomb"])
-    run(["touch", "ip.addr"])
-    run("ip route get 8.8.8.8 | tr -s ' ' | cut -d' ' -f7 | tr -d ' \n\t' > ip.addr", shell=True) # get our current LAN IP; better to execute each command separately and pipe the data through
-    with open("ip.addr", 'r') as ip_addr:
-        hp = Popen(["honeycomb", "--iamroot", "service", "run", "tarpit", "ip=" + ip_addr.read(), "port=" + str(port)])
-    run(["rm", "ip.addr"])
-    sleep(10)
-    hp.kill()
-    hp.communicate()
-    exit() #test
+    #run(["touch", "ip.addr"])
+    #run("ip route get 8.8.8.8 | tr -s ' ' | cut -d' ' -f7 | tr -d ' \n\t' > ip.addr", shell=True) # get our current LAN IP; better to execute each command separately and pipe the data through
+    #with open("ip.addr", 'r') as ip_addr:
+    #    hp = Popen(["honeycomb", "--iamroot", "service", "run", "tarpit", "ip=" + ip_addr.read(), "port=" + str(port)])
+    #run(["rm", "ip.addr"])
+    #sleep(10)
+    #hp.kill()
+    #hp.communicate()
+    #exit() #test
     """END OF TESTS"""
     return Popen(["honeycomb", "--iamroot", "service", "run", name, "ip=" + ip, "port=" + str(port)], stdout=PIPE, stderr=PIPE)
 
@@ -181,7 +181,7 @@ def start_services(config, ips):
 def apply_config(config):
     ips = ["192.168.1.105", "192.168.1.110"] #testing
     pprint(config) #testing
-    #run(["modprobe", "dummy"], stdout=DEVNULL, stderr=STDOUT)# load dummy kernel module if it's not loaded
+    run(["modprobe", "dummy"], stdout=DEVNULL, stderr=STDOUT)# load dummy kernel module if it's not loaded
     run(["ip", "li", "add", "eth10", "type", "dummy"], stdout=DEVNULL, stderr=STDOUT)#create sample interface
     print("created an interface?")
     run(["ip", "addr", "show", "eth10"]) # test output
